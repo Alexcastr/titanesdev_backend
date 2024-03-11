@@ -43,7 +43,7 @@ const login = async (req, res) => {
 
     const token = user.createJWT();
 
-    res.status(200).json({ user: { name: user.username }, token });
+    res.status(200).json({ user: { name: user.username,email: user.email }, token });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error logging in');
