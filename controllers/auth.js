@@ -1,11 +1,9 @@
 import User from '../models/User.js';
 import { connect, disconnect } from '../db.js';
 
-
 const register = async (req, res) => {
   try {
     await connect();
-
 
     const user = await User.create({ ...req.body });
     const token = user.createJWT();
@@ -46,7 +44,10 @@ const login = async (req, res) => {
 
     const token = user.createJWT();
 
-    res.status(200).json({ user: { name: user.username, email: user.email, rol: user.rol }, token });
+    res.status(200).json({
+      user: { name: user.username, email: user.email, rol: user.rol },
+      token
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error logging in');
@@ -54,13 +55,10 @@ const login = async (req, res) => {
 };
 
 const lista = async function (req, res) {
-
   await connect();
-  console.log('aqui')
-  let reg = await User.find({})
-  res.status(200).send({ data: reg });
 
+  const users = await User.find();
+  res.status(200).json({ users });
 };
-
 
 export { register, login, lista };
