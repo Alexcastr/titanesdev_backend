@@ -8,10 +8,7 @@ dotenv.config();
 mongoose.set('strictQuery', true);
 
 const UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true
-  },
+  username: { type: String, required: true },
   email: {
     type: String,
     required: [true, 'Please provide email'],
@@ -21,11 +18,12 @@ const UserSchema = new mongoose.Schema({
     ],
     unique: true
   },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 6
-  }
+  password: { type: String, required: [true, 'Please provide a password'], minlength: 6 },
+  rol: { type: String, required: true },
+  perfil: { type: String, default: "perfil.png", required: true },
+  sorteosAdministrados: { type: Number, default: 0, required: true },
+  fechaRegistro: { type: Date, default: Date.now, require: true },
+  //estadoCuenta: { type: Boolean, required: true },
 });
 
 UserSchema.pre('save', async function () {
