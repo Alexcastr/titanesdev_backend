@@ -18,11 +18,15 @@ const UserSchema = new mongoose.Schema({
     ],
     unique: true
   },
-  password: { type: String, required: [true, 'Please provide a password'], minlength: 6 },
+  password: {
+    type: String,
+    required: [true, 'Please provide a password'],
+    minlength: 6
+  },
   rol: { type: String, required: true },
-  perfil: { type: String, default: "perfil.png", required: true },
+  perfil: { type: String, default: 'perfil.png', required: true },
   sorteosAdministrados: { type: Number, default: 0, required: true },
-  fechaRegistro: { type: Date, default: Date.now, require: true },
+  fechaRegistro: { type: Date, default: Date.now, require: true }
   //estadoCuenta: { type: Boolean, required: true },
 });
 
@@ -33,7 +37,7 @@ UserSchema.pre('save', async function () {
 
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
+    { userId: this._id, name: this.username, email: this.email, rol: this.rol },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_LIFETIME
