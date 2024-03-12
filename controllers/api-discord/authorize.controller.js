@@ -1,7 +1,10 @@
 const axios = require('axios');
 require('dotenv').config();
+
 const baseUrl = 'https://discord.com/api/v10';
 const redirectUri = 'http://localhost:3000/api/discord/authorize';
+const idServerDevtalles = '1130900724499365958';
+
 const Usuario = require('../../models/usuario');
 
 const authAcount = async (req, res) => {
@@ -81,4 +84,47 @@ const getUser = async ({ token }) => {
   }
 };
 
-module.exports = { authAcount };
+const registerSorteo = async ( req, res )=>{
+  try {
+    const listGuilds = [];
+    listGuilds = await getListGuilds(token);
+
+    if (!(listGuilds.length > 0)) return;
+
+    if (isExistsInServer(listGuilds)) {
+      // Guardar en DB al usuario
+      res.json(true);
+    }else{
+      res.json(false);
+    }
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+const isExistsInServer = ( listGuilds ) =>{
+  listGuilds.forEach(server => {
+    if (server.id === idServerDevtalles) {
+      return true;
+    }
+  });
+
+  return false;
+}
+
+const getListGuilds = async ( token )=>{
+  try {
+    const response = await axios.get(`${baseUrl}/users/@me/guilds`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+module.exports = { authAcount, registerSorteo };

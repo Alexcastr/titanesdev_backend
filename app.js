@@ -12,7 +12,7 @@ var server = require('http').createServer(app);
 const usuario_Route = require("./routes/usuario");
 const admin_Route = require("./routes/admin");
 const config_Route = require("./routes/config");
-const discord_api = require("./routes/api-discord/authorize");
+const discord_api = require("./routes/api-discord/discord");
 
 
 
