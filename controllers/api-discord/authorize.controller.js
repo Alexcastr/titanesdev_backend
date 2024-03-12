@@ -27,13 +27,13 @@ const authAcount = async (req, res) => {
           username,
           avatar
         });
-        await Usuario.save(newUser);
+        // await Usuario.save(newUser);
         console.log('Usuario creado', newUser);
-        // res.status(200).json({ message: 'Usuario autenticado', data: newUser });
-        res.redirect('http://localhost:4200/dashboard');
+        res.status(200).json({ message: 'Usuario autenticado', data: newUser });
+        // res.redirect('http://localhost:4200/dashboard');
       } else {
-        // res.status(200).json({ message: 'Usuario ya existe ', data: usuario });
-        res.redirect('http://localhost:4200/dashboard');
+        res.status(200).json({ message: 'Usuario ya existe ', data: usuario });
+        // res.redirect('http://localhost:4200/dashboard');
       }
     }
   } catch (error) {
