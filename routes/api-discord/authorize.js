@@ -1,4 +1,4 @@
-import express from 'express';
+/*import express from 'express';
 import { login } from "../../controllers/api-discord/authorize.controller.js";
 
 const router = express.Router();
@@ -6,4 +6,4 @@ const router = express.Router();
 // router.get('/authorize', authorize);
 router.get('/login', login );
 
-export default router;
+export default router;*/

@@ -1,4 +1,4 @@
-import axios from "axios";
+/*import axios from "axios";
 
 const baseUrl = 'https://discord.com/api/v10';
 const redirectUri = 'http://localhost:3001/authorize-acount/login';
@@ -46,4 +46,4 @@ const login = async (req, res) => {
 };
 
 
-export { login };
+export { login };*/
