@@ -10,7 +10,6 @@ var server = require('http').createServer(app);
 
 
 
-const cliente_Route = require("./routes/cliente");
 const admin_Route = require("./routes/admin");
 const config_Route = require("./routes/config");
 const discord_api = require("./routes/api-discord/authorize");
@@ -49,7 +48,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api", cliente_Route);
 app.use("/api", admin_Route);
 app.use("/api", config_Route);
 app.use("/api", discord_api);
