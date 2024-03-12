@@ -8,6 +8,4 @@ var auth = require("../middlewares/authenticate");
 api.post("/registroUsuario", usuarioController.registroUsuario);
 api.post("/loginUsuario", usuarioController.loginUsuario);
 
-
-
 module.exports = api;
