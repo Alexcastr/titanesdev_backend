@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var server = require('http').createServer(app);
 
 
-
+const usuario_Route = require("./routes/usuario");
 const admin_Route = require("./routes/admin");
 const config_Route = require("./routes/config");
 const discord_api = require("./routes/api-discord/authorize");
@@ -48,6 +48,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/api", usuario_Route);
 app.use("/api", admin_Route);
 app.use("/api", config_Route);
 app.use("/api", discord_api);
