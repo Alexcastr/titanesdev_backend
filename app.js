@@ -13,6 +13,7 @@ var server = require('http').createServer(app);
 const cliente_Route = require("./routes/cliente");
 const admin_Route = require("./routes/admin");
 const config_Route = require("./routes/config");
+const discord_api = require("./routes/api-discord/authorize");
 
 
 
@@ -31,7 +32,7 @@ db.once("open", function () {
 });
 
 server.listen(3000, () => {
-  console.log("Server is running at port");
+  console.log("Server is running at port" + 3000);
 });
 
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -51,6 +52,7 @@ app.use((req, res, next) => {
 app.use("/api", cliente_Route);
 app.use("/api", admin_Route);
 app.use("/api", config_Route);
+app.use("/api", discord_api);
 
 
 

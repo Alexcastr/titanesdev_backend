@@ -1,9 +1,8 @@
-/*import express from 'express';
-import { login } from "../../controllers/api-discord/authorize.controller.js";
+var express = require("express");
+const dc = require("../../controllers/api-discord/authorize.controller.js");
 
-const router = express.Router();
+const api = express.Router();
 
-// router.get('/authorize', authorize);
-router.get('/login', login );
+api.get('/discord/authorize', dc.authAcount );
 
-export default router;*/
+module.exports = api;
