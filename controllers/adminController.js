@@ -4,6 +4,7 @@ const Admin = require('../models/admin');
 const bcrypt = require('bcrypt-nodejs');
 //Exportamos el token
 const jwt = require('../middlewares/jwt');
+const Usuario = require('../models/usuario');
 
 const registroAdmin = async function (req, res) {
   const data = req.body;
@@ -79,4 +80,23 @@ const listaAdmin = async function (req, res) {
   }
 };
 
-module.exports = { registroAdmin, loginAdmin, listaAdmin };
+const listarUsuariosAdmin = async function (req, res) {
+  try {
+    // Verificar si el usuario está autenticado y tiene rol de administrador
+    if (!req.user || req.user.rol !== 'admin') {
+      return res.status(403).send({ message: 'Acceso denegado' });
+    }
+
+    // Obtener todos los registros de administradores
+    const usuarios = await Usuario.find({});
+
+    // Enviar los datos como respuesta
+    res.status(200).send({ data: usuarios });
+  } catch (error) {
+    // Manejar errores
+    console.error('Error al obtener lista de usuarios:', error);
+    res.status(500).send({ message: 'Error del servidor' });
+  }
+};
+
+module.exports = { registroAdmin, loginAdmin, listaAdmin, listarUsuariosAdmin };

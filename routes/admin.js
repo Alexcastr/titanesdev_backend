@@ -8,5 +8,6 @@ const api = express.Router();
 api.post('/registroAdmin', adminController.registroAdmin);
 api.post('/loginAdmin', adminController.loginAdmin);
 api.get('/listaAdmin', auth.auth, adminController.listaAdmin);
+api.get('/listarUsuariosAdmin', auth.auth, adminController.listarUsuariosAdmin);
 
 module.exports = api;
