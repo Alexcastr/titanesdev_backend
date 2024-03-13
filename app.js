@@ -3,6 +3,9 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+// dotenv
+require('dotenv').config();
+
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 //const port = process.env.PORT || 4201;
@@ -12,15 +15,14 @@ const usuario_route = require('./routes/usuario');
 const admin_route = require('./routes/admin');
 const config_route = require('./routes/config');
 const sorteo_route = require('./routes/sorteo');
-const discord_api = require('./routes/api-discord/authorize');
+const discord_api = require('./routes/api-discord/discord');
 
-mongoose.connect(
-  'mongodb+srv://titanes_dev:qqc7h6GlJNESdqn3@titanes_db.drxgzvy.mongodb.net/sorteo',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
-);
+const mongo = process.env.MONGO_URI;
+
+mongoose.connect(`${mongo}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error: '));
