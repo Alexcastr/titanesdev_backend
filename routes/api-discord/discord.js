@@ -1,9 +1,10 @@
 var express = require('express');
-const dc = require('../../controllers/api-discord/authorize.controller.js');
+const dcAuth = require('../../controllers/api-discord/authorizeController.js');
+const dcSorteo = require('../../controllers/api-discord/sorteoController.js');
 
 const api = express.Router();
 
-api.get('/discord/authorize', dc.authAcount);
-api.get('/discord/register-sorteo', dc.registerSorteo);
+api.get('/discord/authorize', dcAuth.authAcount);
+api.get('/discord/register-sorteo', dcSorteo);
 
 module.exports = api;
