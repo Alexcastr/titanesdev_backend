@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 const dc = require('../../controllers/api-discord/authorize.controller.js');
 
 const api = express.Router();

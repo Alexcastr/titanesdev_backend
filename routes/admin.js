@@ -1,12 +1,12 @@
-"use strict";
-var express = require("express");
-var adminController = require("../controllers/adminController");
-var auth = require("../middlewares/authenticate");
+'use strict';
+const express = require('express');
+const adminController = require('../controllers/adminController');
+const auth = require('../middlewares/authenticate');
 
-var api = express.Router();
+const api = express.Router();
 
-api.post("/registroAdmin", adminController.registroAdmin);
-api.post("/loginAdmin", adminController.loginAdmin);
-api.get("/listaAdmin", auth.auth, adminController.listaAdmin);
+api.post('/registroAdmin', adminController.registroAdmin);
+api.post('/loginAdmin', adminController.loginAdmin);
+api.get('/listaAdmin', auth.auth, adminController.listaAdmin);
 
 module.exports = api;
