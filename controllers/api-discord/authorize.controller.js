@@ -32,10 +32,22 @@ const authAcount = async (req, res) => {
         });
         // await Usuario.save(newUser);
         console.log('Usuario creado', newUser);
-        res.status(200).json({ message: 'Usuario autenticado', data: newUser });
+        res
+          .status(200)
+          .json({
+            message: 'Usuario autenticado',
+            data: newUser,
+            token: access_token
+          });
         // res.redirect('http://localhost:4200/dashboard');
       } else {
-        res.status(200).json({ message: 'Usuario ya existe ', data: usuario });
+        res
+          .status(200)
+          .json({
+            message: 'Usuario ya existe ',
+            data: usuario,
+            token: access_token
+          });
         // res.redirect('http://localhost:4200/dashboard');
       }
     }
@@ -84,7 +96,7 @@ const getUser = async ({ token }) => {
   }
 };
 
-const registerSorteo = async ( req, res )=>{
+const registerSorteo = async (req, res) => {
   try {
     const listGuilds = [];
     listGuilds = await getListGuilds(token);
@@ -94,26 +106,25 @@ const registerSorteo = async ( req, res )=>{
     if (isExistsInServer(listGuilds)) {
       // Guardar en DB al usuario
       res.json(true);
-    }else{
+    } else {
       res.json(false);
     }
-
   } catch (error) {
     throw error;
   }
-}
+};
 
-const isExistsInServer = ( listGuilds ) =>{
-  listGuilds.forEach(server => {
+const isExistsInServer = (listGuilds) => {
+  listGuilds.forEach((server) => {
     if (server.id === idServerDevtalles) {
       return true;
     }
   });
 
   return false;
-}
+};
 
-const getListGuilds = async ( token )=>{
+const getListGuilds = async (token) => {
   try {
     const response = await axios.get(`${baseUrl}/users/@me/guilds`, {
       headers: {
@@ -125,6 +136,6 @@ const getListGuilds = async ( token )=>{
   } catch (error) {
     throw error;
   }
-}
+};
 
 module.exports = { authAcount, registerSorteo };
