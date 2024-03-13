@@ -117,5 +117,31 @@ const eliminar_usuario_admin = async function (req, res) {
   }
 }
 
+const actualizar_usuario_admin = async function (req, res) {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      var id = req.params['id'];
+      var data = req.body;
+      try {
+        var reg = await Usuario.findByIdAndUpdate({ _id: id }, {
+          username: data.username,
+          rol: data.rol
+        });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+}
 
-module.exports = { registroAdmin, loginAdmin, listaAdmin, listarUsuariosAdmin, eliminar_usuario_admin };
+
+module.exports = {
+  registroAdmin, loginAdmin, listaAdmin,
+  listarUsuariosAdmin, eliminar_usuario_admin,
+  actualizar_usuario_admin
+};
