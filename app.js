@@ -2,16 +2,15 @@
 
 const express = require('express');
 const app = express();
-app.use(express.json());
-// dotenv
-require('dotenv').config();
-
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
-//const port = process.env.PORT || 4201;
+require('dotenv').config();
+
+app.use(express.json());
+// dotenv
+
+const PORT = process.env.PORT || 3000;
 const server = require('http').createServer(app);
-
-
 
 const usuario_route = require('./routes/usuario');
 const admin_route = require('./routes/admin');
@@ -52,7 +51,7 @@ app.use('/api', config_route);
 app.use('/api', sorteo_route);
 app.use('/api', discord_api);
 
-server.listen(3000, () => {
-  console.log('Server is running at port' + 3000);
+server.listen(PORT, () => {
+  console.log('Server is running at port ' + PORT);
 });
 module.exports = app;
