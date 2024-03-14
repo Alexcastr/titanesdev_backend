@@ -1,58 +1,58 @@
-"use strict";
+'use strict';
 
-var express = require("express");
-var app = express();
+const express = require('express');
+const app = express();
 app.use(express.json());
-var bodyparser = require("body-parser");
-var mongoose = require("mongoose");
-//var port = process.env.PORT || 4201;
-var server = require('http').createServer(app);
+// dotenv
+require('dotenv').config();
 
-
-const usuario_Route = require("./routes/usuario");
-const admin_Route = require("./routes/admin");
-const config_Route = require("./routes/config");
-const discord_api = require("./routes/api-discord/discord");
+const bodyparser = require('body-parser');
+const mongoose = require('mongoose');
+//const port = process.env.PORT || 4201;
+const server = require('http').createServer(app);
 
 
 
-mongoose.connect(
-  "mongodb+srv://titanes_dev:qqc7h6GlJNESdqn3@titanes_db.drxgzvy.mongodb.net/sorteo",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+const usuario_route = require('./routes/usuario');
+const admin_route = require('./routes/admin');
+const config_route = require('./routes/config');
+const sorteo_route = require('./routes/sorteo');
+const discord_api = require('./routes/api-discord/discord');
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-  console.log("Connected successfully");
+const mongo = process.env.MONGO_URI;
+
+mongoose.connect(`${mongo}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-server.listen(3000, () => {
-  console.log("Server is running at port" + 3000);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error: '));
+db.once('open', function () {
+  console.log('Connected successfully');
 });
 
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(bodyparser.json({ limit: "50mb", extended: true }));
+app.use(bodyparser.json({ limit: '50mb', extended: true }));
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Origin', '*');
   res.header(
-    "Access-Control-Allow-Headers",
-    "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Allow-Request-Method"
+    'Access-Control-Allow-Headers',
+    'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Access-Control-Allow-Request-Method'
   );
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-  res.header("Allow", "GET, PUT, POST, DELETE, OPTIONS");
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Allow', 'GET, PUT, POST, DELETE, OPTIONS');
   next();
 });
 
-app.use("/api", usuario_Route);
-app.use("/api", admin_Route);
-app.use("/api", config_Route);
-app.use("/api", discord_api);
+app.use('/api', usuario_route);
+app.use('/api', admin_route);
+app.use('/api', config_route);
+app.use('/api', sorteo_route);
+app.use('/api', discord_api);
 
-
-
+server.listen(3000, () => {
+  console.log('Server is running at port' + 3000);
+});
 module.exports = app;

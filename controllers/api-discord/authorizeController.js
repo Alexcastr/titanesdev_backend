@@ -32,10 +32,22 @@ const authAcount = async (req, res) => {
         });
         // await Usuario.save(newUser);
         console.log('Usuario creado', newUser);
-        res.status(200).json({ message: 'Usuario autenticado', data: newUser });
+        res
+          .status(200)
+          .json({
+            message: 'Usuario autenticado',
+            data: newUser,
+            token: access_token
+          });
         // res.redirect('http://localhost:4200/dashboard');
       } else {
-        res.status(200).json({ message: 'Usuario ya existe ', data: usuario });
+        res
+          .status(200)
+          .json({
+            message: 'Usuario ya existe ',
+            data: usuario,
+            token: access_token
+          });
         // res.redirect('http://localhost:4200/dashboard');
       }
     }
