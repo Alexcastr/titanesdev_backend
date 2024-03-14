@@ -1,3 +1,4 @@
+const axios = require('axios');
 require('dotenv').config();
 
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_DISCORD_URI, BASE_DICORD_URL } =
@@ -15,10 +16,14 @@ const exchangeCode = async (code) => {
       'Content-Type': 'application/x-www-form-urlencoded'
     };
 
-    const response = await axios.post(`${BASE_DICORD_URL}/oauth2/token`, data, {
-      headers,
-      auth: { username: CLIENT_ID, password: CLIENT_SECRET }
-    });
+    const response = await axios.post(
+      `https://discord.com/api/v10/oauth2/token`,
+      data,
+      {
+        headers,
+        auth: { username: CLIENT_ID, password: CLIENT_SECRET }
+      }
+    );
 
     return response.data;
   } catch (error) {

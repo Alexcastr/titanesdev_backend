@@ -5,7 +5,7 @@ const { BASE_DISCORD_URL } = process.env;
 
 const getDiscordUser = async ({ token }) => {
   try {
-    const response = await axios.get(`${BASE_DISCORD_URL}/users/@me`, {
+    const response = await axios.get(`https://discord.com/api/v10/users/@me`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
