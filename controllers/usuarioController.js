@@ -56,7 +56,8 @@ const loginUsuario = async function (req, res) {
   }
 };
 
+
 module.exports = {
   registroUsuario,
-  loginUsuario
+  loginUsuario,
 };

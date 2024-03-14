@@ -15,15 +15,8 @@ api.delete(
   auth.auth,
   adminController.eliminar_usuario_admin
 );
-api.get(
-  '/obtener_usuario_admin/:id',
-  auth.auth,
-  adminController.obtener_usuario_admin
-);
-api.put(
-  '/actualizar_usuario_admin/:id',
-  auth.auth,
-  adminController.actualizar_usuario_admin
-);
+api.get('/obtener_usuario_admin/:id',auth.auth,adminController.obtener_usuario_admin);
+api.get('/obtener_usuario_guest/:id', auth.auth, adminController.obtener_usuario_guest);
+api.put('/actualizar_usuario_admin/:id', auth.auth, adminController.actualizar_usuario_admin);
 
 module.exports = api;
