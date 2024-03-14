@@ -26,21 +26,10 @@ const authAcount = async (req, res) => {
           username,
           avatar
         });
-        // await Usuario.save(newUser);
-        console.log('Usuario creado', newUser);
-        res.status(200).json({
-          message: 'Usuario autenticado',
-          data: newUser,
-          token: access_token
-        });
-        // res.redirect('http://localhost:4200/dashboard');
+
+        res.redirect('http://localhost:4200/redirect/'+access_token);
       } else {
-        res.status(200).json({
-          message: 'Usuario ya existe ',
-          data: usuario,
-          token: access_token
-        });
-        // res.redirect('http://localhost:4200/dashboard');
+        res.redirect('http://localhost:4200/sorteo');
       }
     }
   } catch (error) {

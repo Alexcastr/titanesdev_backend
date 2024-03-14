@@ -49,10 +49,10 @@ const registerSorteo = async (req, res) => {
         user.id
       );
 
-      res.send({ message: message, status: status });
+      res.send({ message, status });
     } else {
       console.log(false);
-      res.send({ message: 'El usuario no esta en el servidor', status: false });
+      res.send({ message: 'El usuario no esta en el servidor', status: 'NOTSERVER'});
     }
   } catch (error) {
     // throw error;
@@ -62,16 +62,18 @@ const registerSorteo = async (req, res) => {
 const registerParticipantsInSorteo = async (sorteoId, usuarioId) => {
   try {
     const sorteo = await Sorteo.findById(sorteoId);
+    console.log(sorteoId);
     if (!sorteo) {
-      return { message: 'no existe el sorteo', status: false };
+      return { message: 'No existe el sorteo', status: 'NOTSORTEO' };
     }
+
     if (sorteo.participants.includes(usuarioId)) {
-      return { message: 'usuario ya registrado en el sorteo', status: false };
+      return { message: 'Usuario ya está registrado en el sorteo', status: 'ISIN' };
     }
 
     sorteo.participants.push(usuarioId);
     await sorteo.save();
-    return { message: 'usuario registrado con exito', status: true };
+    return { message: 'Usuario registrado con exito', status: 'OK' };
   } catch (error) {
     console.log(error);
   }
