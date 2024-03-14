@@ -6,7 +6,9 @@ const SorteoSchema = new mongoose.Schema({
   description: String,
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }], // Referencia a la colección de usuarios
+  participants: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', unique: true }
+  ], // Referencia a la colección de usuarios
   winner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',

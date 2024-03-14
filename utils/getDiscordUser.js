@@ -10,6 +10,7 @@ const getDiscordUser = async ({ token }) => {
         Authorization: `Bearer ${token}`
       }
     });
+    console.log('response getDiscordUser', response.data);
 
     return response.data;
   } catch (error) {
