@@ -6,5 +6,6 @@ const api = express.Router();
 
 api.get('/sorteos', sorteoController.getAllSorteos);
 api.post('/sorteos', sorteoController.createSorteo);
+api.post('/sorteos/register-user', sorteoController.registerSorteo);
 
 module.exports = api;

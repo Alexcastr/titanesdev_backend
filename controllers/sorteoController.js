@@ -1,4 +1,7 @@
+const {getListGuilds, isExistsInServer} = require('./api-discord/guildsController');
+const axios = require('axios');
 const Sorteo = require('../models/sorteo');
+const User = require('../models/usuario');
 
 const getAllSorteos = async (req, res) => {
   try {
@@ -21,7 +24,54 @@ const createSorteo = async (req, res) => {
   }
 };
 
+const registerSorteo = async ( req, res )=>{
+  try {
+    const { authorization } = req.headers;
+    const { sorteoId } = req.body;
+    console.log(authorization);
+
+    const tokenDc = authorization.split(' ')[1];
+    const listGuilds = await getListGuilds(tokenDc);
+    if (!(listGuilds.length > 0)) res.send('El usuario no tiene ningun servidor');
+
+    const dataUserDc = await axios.get(`https://discord.com/api/v10/users/@me`, {
+      headers: {
+        Authorization: `Bearer ${tokenDc}`
+      }
+    });
+    
+    const { id } = dataUserDc.data;
+    const user = await User.findOne({ discordId: id });
+    
+    if (!user) res.send('No existe el usuario');
+    if (isExistsInServer(listGuilds)) {
+      await registerParticipantsInSorteo( sorteoId, user.id );
+      res.send(true);
+    }else{
+      console.log(false);
+      res.send(false);
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+const registerParticipantsInSorteo = async ( sorteoId, usuarioId )=>{
+  try {
+  const sorteo = await Sorteo.findById(sorteoId);
+  if (!sorteo) {
+    return res.status(404).json({ message: 'Sorteo no encontrado' });
+  }
+
+  sorteo.participants.push(usuarioId);  
+  await sorteo.save();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 module.exports = {
   getAllSorteos,
-  createSorteo
+  createSorteo,
+  registerSorteo
 };
