@@ -6,7 +6,7 @@ const Usuario = require('../../models/usuario');
 const authAcount = async (req, res) => {
   try {
     if (req.query.error == 'access_denied') {
-      return res.redirect('http://localhost:4200/login');
+      return res.redirect('http://localhost:4200/login-usuario');
     }
     const { code } = req.query;
     const tokenResponse = await exchangeCode(code);
