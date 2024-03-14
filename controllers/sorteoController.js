@@ -31,16 +31,16 @@ const registerSorteo = async (req, res) => {
   try {
     const { authorization } = req.headers;
     const { sorteoId } = req.body;
-    console.log(authorization);
 
     const tokenDc = authorization.split(' ')[1];
+
     const listGuilds = await getListGuilds(tokenDc);
     if (!(listGuilds.length > 0))
       res.send('El usuario no tiene ningun servidor');
 
     const dataUserDc = await getDiscordUser({ token: tokenDc });
+    const { id } = dataUserDc;
 
-    const { id } = dataUserDc.data;
     const user = await User.findOne({ discordId: id });
 
     if (!user) res.send('No existe el usuario');
@@ -52,7 +52,7 @@ const registerSorteo = async (req, res) => {
       res.send(false);
     }
   } catch (error) {
-    throw error;
+    // throw error;
   }
 };
 
