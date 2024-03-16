@@ -8,7 +8,7 @@ var path = multiparty({ uploadDir: './uploads/sorteos/' })
 // middleware if rol is admin can access
 
 api.get('/sorteos', sorteoController.getAllSorteos);
-api.post('/sorteos', sorteoController.createSorteo);
+api.post('/sorteos', hasAdminRole, sorteoController.createSorteo);
 api.post('/sorteos/register-user', sorteoController.registerSorteo);
 api.put("/agregar_imgPortada_admin/:id", [auth.auth, path], sorteoController.agregar_imgPortada_admin);
 api.get("/obtener_sorteo_admin/:id", auth.auth, sorteoController.obtener_sorteo_admin);

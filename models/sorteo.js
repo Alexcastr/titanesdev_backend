@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Define el esquema para la colección "raffle"
+// Define el esquema para la colección Sorteo
 const SorteoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   imagenes: [{ type: Object, required: false }],
@@ -9,11 +9,14 @@ const SorteoSchema = new mongoose.Schema({
   participants: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', unique: true }
   ], // Referencia a la colección de usuarios
-  winner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usuario',
-    default: null
-  }, // Referencia al ganador (usuario)
+  premios: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Premio' }], // Referencia a la colección de premios
+  winners: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuario',
+      default: null
+    }
+  ], // Referencia a los ganadores (usuarios)
   prize: String,
   location: String,
   tags: [{ type: String }]

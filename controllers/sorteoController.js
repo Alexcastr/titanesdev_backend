@@ -54,7 +54,11 @@ const registerSorteo = async (req, res) => {
       res.send({ message, status });
     } else {
       console.log(false);
+
       res.send({ message: 'El usuario no esta en el servidor', status: 'NOTSERVER' });
+
+      res.send({ message: 'No perteneces al servidor', status: 'NOTSERVER'});
+
     }
   } catch (error) {
     // throw error;
