@@ -19,8 +19,8 @@ const getAllSorteos = async (req, res) => {
 };
 
 const createSorteo = async (req, res) => {
-  if (req.sorteo) {
-    if (req.sorteo.rol == 'admin') {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
       var data = req.body;
       let reg = await Sorteo.create(data);
       res.status(200).send({ data: reg });

@@ -5,8 +5,8 @@ const SorteoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   imagenes: [{ type: Object, required: false }],
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
+  startDate: { type: String, required: true },
+  endDate: { type: String, required: true },
   participants: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', unique: true, required: false }
   ], // Referencia a la colección de usuarios
