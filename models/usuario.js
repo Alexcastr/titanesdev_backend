@@ -9,6 +9,12 @@ const UsuarioSchema = new Schema({
   avatar: { type: String, required: true },
   telefono: { type: String, required: false },
   rol: { type: String, enum: ['admin', 'user'], default: 'user' },
+  sorteos: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Sorteo', unique: true }
+  ],
+  premios: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Premio', unique: true }
+  ],
   createAt: { type: Date, default: Date.now, require: true }
 });
 

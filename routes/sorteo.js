@@ -1,6 +1,6 @@
 const express = require('express');
 const sorteoController = require('../controllers/sorteoController');
-const hasAdminRole = require('../middlewares/hasAdminRol');
+// const hasAdminRole = require('../middlewares/hasAdminRol');
 const api = express.Router();
 // middleware if rol is admin can access
 

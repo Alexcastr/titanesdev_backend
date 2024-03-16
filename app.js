@@ -17,6 +17,7 @@ const admin_route = require('./routes/admin');
 const config_route = require('./routes/config');
 const sorteo_route = require('./routes/sorteo');
 const discord_api = require('./routes/api-discord/discord');
+const premio_route = require('./routes/premio');
 
 const mongo = process.env.MONGO_URI;
 
@@ -50,6 +51,7 @@ app.use('/api', admin_route);
 app.use('/api', config_route);
 app.use('/api', sorteo_route);
 app.use('/api', discord_api);
+app.use('/api', premio_route);
 
 server.listen(PORT, () => {
   console.log('Server is running at port ' + PORT);
