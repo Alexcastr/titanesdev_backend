@@ -5,6 +5,8 @@ const {
 const Sorteo = require('../models/sorteo');
 const User = require('../models/usuario');
 const getDiscordUser = require('../utils/getDiscordUser');
+var fs = require('fs');
+var path = require('path');
 
 const getAllSorteos = async (req, res) => {
   try {
@@ -52,7 +54,11 @@ const registerSorteo = async (req, res) => {
       res.send({ message, status });
     } else {
       console.log(false);
+
+      res.send({ message: 'El usuario no esta en el servidor', status: 'NOTSERVER' });
+
       res.send({ message: 'No perteneces al servidor', status: 'NOTSERVER'});
+
     }
   } catch (error) {
     // throw error;
@@ -79,8 +85,82 @@ const registerParticipantsInSorteo = async (sorteoId, usuarioId) => {
   }
 };
 
+const agregar_imgPortada_admin = async function (req, res) {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      let id = req.params['id']
+      let data = req.body;
+      if (req.files) {
+        //SI HAY IMG
+        var img_path = req.files.imagen.path;
+        var name = img_path.split('\\');
+        var imagen_name = name[2];
+        //data.portada = portada_name;
+        let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
+          $push: {
+            galeria: {
+              imagen_name,
+              _id: data._id
+            }
+          }
+        });
+        res.status(200).send({ data: reg });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+}
+
+const obtener_sorteo_admin = async function (req, res) {
+  if (req.user) {
+      if (req.user.rol == "admin") {
+          var id = req.params['id'];
+          try {
+              var reg = await Sorteo.findById({ _id: id });
+              res.status(200).send({ data: reg });
+          } catch (error) {
+              res.status(200).send({ data: undefined });
+          }
+      } else {
+          res.status(200).send({ data: reg });
+      }
+  } else {
+      res.status(500).send({ message: "NoAccess" });
+  }
+};
+
+const eliminar_imagen_galeria_admin = async function (req, res) {
+  if (req.user) {
+      if (req.user.rol == 'admin') {
+          var id = req.params['id'];
+          let data = req.body;
+          try {
+              let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
+                  $pull: {
+                      galeria: {
+                          _id: data._id
+                      }
+                  }
+              });
+              res.status(200).send({ data: reg });
+          } catch (error) {
+              res.status(200).send({ data: undefined });
+          }
+      } else {
+          res.status(500).send({ message: "NoAccess" });
+      }
+  } else {
+      res.status(500).send({ message: "NoAccess" });
+  }
+}
+
+
+
 module.exports = {
-  getAllSorteos,
-  createSorteo,
-  registerSorteo
+  getAllSorteos,createSorteo,
+  registerSorteo, agregar_imgPortada_admin,
+  obtener_sorteo_admin,eliminar_imagen_galeria_admin
 };

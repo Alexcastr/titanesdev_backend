@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // Define el esquema para la colección Sorteo
 const SorteoSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  description: String,
+  imagenes: [{ type: Object, required: false }],
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   participants: [

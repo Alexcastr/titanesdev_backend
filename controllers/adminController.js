@@ -157,7 +157,7 @@ const obtener_usuario_admin = async function (req, res) {
   }
 }
 
-const obtener_usuario_guest = async function (req, res) {
+/*const obtener_usuario_guest = async function (req, res) {
   if (req.user) {
     var id = req.params['id']
     try {
@@ -169,12 +169,11 @@ const obtener_usuario_guest = async function (req, res) {
   } else {
     res.status(500).send({ message: "NoAccess" });
   }
-}
+}*/
 
 
 module.exports = {
   registroAdmin, loginAdmin, listaAdmin,
   listarUsuariosAdmin, eliminar_usuario_admin,
-  actualizar_usuario_admin, obtener_usuario_admin,
-  obtener_usuario_guest
+  actualizar_usuario_admin, obtener_usuario_admin
 };
