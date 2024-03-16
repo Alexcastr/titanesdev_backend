@@ -4,10 +4,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const PremioSchema = new Schema({
-  name: { type: String, required: true },
+  name: {
+    type: String,
+    required: [true, 'Debe tener un nombre'],
+    minLength: 3
+  },
   description: String,
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
+  startDate: {
+    type: Date,
+    required: [true, 'Define fecha disponibilidad del premio']
+  },
+  endDate: {
+    type: Date,
+    required: [true, 'Define fecha de expiración del premio']
+  },
   sorteo: { type: mongoose.Schema.Types.ObjectId, ref: 'Sorteo' },
   winner: {
     type: mongoose.Schema.Types.ObjectId,

@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UsuarioSchema = new Schema({
-  username: { type: String, required: true },
+  username: {
+    type: String,
+    required: [true, 'Debe tener un nombre'],
+    minLength: 3
+  },
   discordId: { type: String, required: true },
   avatar: { type: String, required: true },
   telefono: { type: String, required: false },

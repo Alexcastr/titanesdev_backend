@@ -2,7 +2,9 @@
 
 const jwt = require('jwt-simple');
 const moment = require('moment');
-const secret = 'diegoLoco';
+require('dotenv').config();
+
+const secret = process.env.JWT_SECRET;
 
 exports.auth = function (req, res, next) {
   if (!req.headers.authorization) {
