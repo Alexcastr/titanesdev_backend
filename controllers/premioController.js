@@ -1,5 +1,5 @@
 const Premio = require('../models/premio');
-
+const isValidObjectId = require('../utils/isValidObjectId.js');
 const getAllPremios = async (req, res) => {
   try {
     const premios = await Premio.find();
@@ -24,8 +24,18 @@ const createPremio = async (req, res) => {
 const getPremio = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // verify if it is a mongo id
+    if (!isValidObjectId(id)) {
+      return res.status(400).send('Id no válido');
+    }
+
     const premio = await Premio.findById(id);
-    console.log('get premio', premio);
+
+    if (!premio) {
+      return res.status(404).send('Premio no encontrado');
+    }
+    // console.log('get premio', premio);
     res.status(200).send(premio);
   } catch (error) {
     console.log('error', error);
@@ -36,8 +46,15 @@ const getPremio = async (req, res) => {
 const updatePremio = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).send('Id no válido');
+    }
     const premio = await Premio.findByIdAndUpdate(id, req.body, { new: true });
-    console.log('update premio', premio);
+
+    if (!premio) {
+      return res.status(404).send('Premio no encontrado');
+    }
     res.status(200).send(premio);
   } catch (error) {
     console.log('error', error);
@@ -48,8 +65,16 @@ const updatePremio = async (req, res) => {
 const deletePremio = async (req, res) => {
   try {
     const { id } = req.params;
-    await Premio.findByIdAndDelete(id);
-    res.status(204).send('Premio eliminado');
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).send('Id no válido');
+    }
+
+    const deletedPremio = await Premio.findByIdAndDelete(id);
+    if (!deletedPremio) {
+      return res.status(404).send('Premio no encontrado');
+    }
+    res.status(204).send(deletedPremio);
   } catch (error) {
     res.status(500).send(error);
   }

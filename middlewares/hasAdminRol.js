@@ -6,13 +6,13 @@ const secret = process.env.JWT_SECRET;
 function hasAdminRol(req, res, next) {
   const authHeader = req.headers.authorization;
 
-  console.log('authorization', authHeader);
+  // console.log('authorization', authHeader);
   if (!authHeader) {
     return res.status(403).send({ message: 'NoHeadersError' });
   }
 
   if (authHeader.startsWith('Bearer ')) {
-    return res.status(403).send({ message: 'Discord User Recognized' });
+    return res.status(403).send({ message: 'Discord User can not access' });
   }
 
   const segment = authHeader.split('.');
