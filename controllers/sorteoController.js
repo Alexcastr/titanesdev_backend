@@ -19,13 +19,16 @@ const getAllSorteos = async (req, res) => {
 };
 
 const createSorteo = async (req, res) => {
-  try {
-    const sorteo = await Sorteo.create(req.body);
-    console.log('create sorteo', sorteo);
-    res.status(201).send(sorteo);
-  } catch (error) {
-    console.log('error', error);
-    res.status(500).send(error);
+  if (req.sorteo) {
+    if (req.sorteo.rol == 'admin') {
+      var data = req.body;
+      let reg = await Sorteo.create(data);
+      res.status(200).send({ data: reg });
+    } else {
+      res.status(500).send({ message: 'No access' });
+    }
+  } else {
+    res.status(500).send({ message: 'No access' });
   }
 };
 
@@ -57,7 +60,7 @@ const registerSorteo = async (req, res) => {
 
       res.send({ message: 'El usuario no esta en el servidor', status: 'NOTSERVER' });
 
-      res.send({ message: 'No perteneces al servidor', status: 'NOTSERVER'});
+      res.send({ message: 'No perteneces al servidor', status: 'NOTSERVER' });
 
     }
   } catch (error) {
@@ -116,51 +119,51 @@ const agregar_imgPortada_admin = async function (req, res) {
 
 const obtener_sorteo_admin = async function (req, res) {
   if (req.user) {
-      if (req.user.rol == "admin") {
-          var id = req.params['id'];
-          try {
-              var reg = await Sorteo.findById({ _id: id });
-              res.status(200).send({ data: reg });
-          } catch (error) {
-              res.status(200).send({ data: undefined });
-          }
-      } else {
-          res.status(200).send({ data: reg });
+    if (req.user.rol == "admin") {
+      var id = req.params['id'];
+      try {
+        var reg = await Sorteo.findById({ _id: id });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
       }
+    } else {
+      res.status(200).send({ data: reg });
+    }
   } else {
-      res.status(500).send({ message: "NoAccess" });
+    res.status(500).send({ message: "NoAccess" });
   }
 };
 
 const eliminar_imagen_galeria_admin = async function (req, res) {
   if (req.user) {
-      if (req.user.rol == 'admin') {
-          var id = req.params['id'];
-          let data = req.body;
-          try {
-              let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
-                  $pull: {
-                      galeria: {
-                          _id: data._id
-                      }
-                  }
-              });
-              res.status(200).send({ data: reg });
-          } catch (error) {
-              res.status(200).send({ data: undefined });
+    if (req.user.rol == 'admin') {
+      var id = req.params['id'];
+      let data = req.body;
+      try {
+        let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
+          $pull: {
+            galeria: {
+              _id: data._id
+            }
           }
-      } else {
-          res.status(500).send({ message: "NoAccess" });
+        });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
       }
-  } else {
+    } else {
       res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
   }
 }
 
 
 
 module.exports = {
-  getAllSorteos,createSorteo,
+  getAllSorteos, createSorteo,
   registerSorteo, agregar_imgPortada_admin,
-  obtener_sorteo_admin,eliminar_imagen_galeria_admin
+  obtener_sorteo_admin, eliminar_imagen_galeria_admin
 };
