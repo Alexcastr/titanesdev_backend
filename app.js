@@ -5,6 +5,7 @@ const app = express();
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const hasAdminRol = require('./middlewares/hasAdminRol');
 
 app.use(express.json());
 // dotenv
@@ -15,8 +16,10 @@ const server = require('http').createServer(app);
 const usuario_route = require('./routes/usuario');
 const admin_route = require('./routes/admin');
 const config_route = require('./routes/config');
-const sorteo_route = require('./routes/sorteo');
 const discord_api = require('./routes/api-discord/discord');
+
+const sorteo_route = require('./routes/sorteo');
+
 const premio_route = require('./routes/premio');
 
 const mongo = process.env.MONGO_URI;
@@ -51,9 +54,10 @@ app.use('/api', admin_route);
 app.use('/api', config_route);
 app.use('/api', sorteo_route);
 app.use('/api', discord_api);
-app.use('/api', premio_route);
+
+app.use('/api', hasAdminRol, premio_route);
 
 server.listen(PORT, () => {
-  console.log('Server is running at port ' + PORT);
+  console.log(`Server is running on port ${PORT}`);
 });
 module.exports = app;
