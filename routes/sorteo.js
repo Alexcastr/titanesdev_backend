@@ -13,5 +13,6 @@ api.post('/sorteos/register-user', sorteoController.registerSorteo);
 api.put("/agregar_imgPortada_admin/:id", [auth.auth, path], sorteoController.agregar_imgPortada_admin);
 api.get("/obtener_sorteo_admin/:id", auth.auth, sorteoController.obtener_sorteo_admin);
 api.put("/eliminar_imagen_galeria_admin/:id", auth.auth, sorteoController.eliminar_imagen_galeria_admin);
-
+api.put('/actualizar_sorteo_admin/:id', auth.auth, sorteoController.actualizar_sorteo_admin);
+api.delete('/eliminar_sorteo_admin/:id', auth.auth, sorteoController.eliminar_sorteo_admin);
 module.exports = api;

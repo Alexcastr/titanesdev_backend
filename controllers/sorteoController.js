@@ -160,10 +160,53 @@ const eliminar_imagen_galeria_admin = async function (req, res) {
   }
 }
 
+const actualizar_sorteo_admin = async function (req, res) {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      var id = req.params['id'];
+      var data = req.body;
+      try {
+        var reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
+          name: data.name,
+          description: data.description,
+          startDate: data.startDate,
+          endDate: data.endDate,
+          prize: data.endDate
+        });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+}
+
+const eliminar_sorteo_admin = async function (req, res) {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      var id = req.params['id'];
+      try {
+        var reg = await Sorteo.findByIdAndRemove({ _id: id });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+}
 
 
 module.exports = {
   getAllSorteos, createSorteo,
   registerSorteo, agregar_imgPortada_admin,
-  obtener_sorteo_admin, eliminar_imagen_galeria_admin
+  obtener_sorteo_admin, eliminar_imagen_galeria_admin,
+  actualizar_sorteo_admin, eliminar_sorteo_admin
 };

@@ -7,15 +7,19 @@ const jwt = require('../middlewares/jwt');
 const Usuario = require('../models/usuario');
 
 const registroAdmin = async function (req, res) {
+  if (!req.user || req.user.rol !== 'admin') {
+    return res.status(403).send({ message: 'Acceso denegado' });
+  }
+
   const data = req.body;
 
   //Validar correos existentes
-  const adminArrray = [];
-  adminArrray = await Admin.find({ email: data.email });
-  if (adminArrray.length == 0) {
+  let adminArray = [];
+  adminArray = await Admin.find({ email: data.email });
+  if (adminArray.length === 0) {
     //Registro
 
-    //Encryptar contraseya y registrar
+    //Encryptar contraseña y registrar
     if (data.password) {
       bcrypt.hash(data.password, null, null, async function (err, hash) {
         if (hash) {
@@ -27,7 +31,7 @@ const registroAdmin = async function (req, res) {
         }
       });
     } else {
-      res.status(200).send({ Message: 'No hay contraseya', data: undefined });
+      res.status(200).send({ Message: 'No hay contraseña', data: undefined });
     }
   } else {
     res.status(200).send({ Message: 'El correo ya existe', data: undefined });
@@ -91,7 +95,7 @@ const listarUsuariosAdmin = async function (req, res) {
     const usuarios = await Usuario.find({});
 
     // Enviar los datos como respuesta
-    res.status(200).send( usuarios );
+    res.status(200).send(usuarios);
   } catch (error) {
     // Manejar errores
     console.error('Error al obtener lista de usuarios:', error);
@@ -139,12 +143,59 @@ const actualizar_usuario_admin = async function (req, res) {
   }
 }
 
+const actualizar_admin = async function (req, res) {
+  if (req.user && req.user.rol === 'admin') {
+    const id = req.params.id;
+    const data = req.body;
+    try {
+      // Hash de la nueva contraseña
+      bcrypt.hash('123456789', null, null, async function (err, hash) {
+        if (err) {
+          res.status(500).send({ message: "Error al hashear la contraseña" });
+        } else {
+          // Actualizar el administrador con la nueva contraseña hash
+          const reg = await Admin.findByIdAndUpdate(id, {
+            username: data.username,
+            email: data.email,
+            password: hash,
+            rol: data.rol,
+          });
+          res.status(200).send({ data: reg });
+        }
+      });
+    } catch (error) {
+      res.status(500).send({ message: "Error al actualizar el administrador" });
+    }
+  } else {
+    res.status(403).send({ message: "Acceso denegado" });
+  }
+}
+
+
 const obtener_usuario_admin = async function (req, res) {
   if (req.user) {
     if (req.user.rol == 'admin') {
       var id = req.params['id'];
       try {
         var reg = await Usuario.findById({ _id: id });
+        res.status(200).send({ data: reg });
+      } catch (error) {
+        res.status(200).send({ data: undefined });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
+  }
+}
+
+const obtener_admin = async function (req, res) {
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      var id = req.params['id'];
+      try {
+        var reg = await Admin.findById({ _id: id });
         res.status(200).send({ data: reg });
       } catch (error) {
         res.status(200).send({ data: undefined });
@@ -172,8 +223,10 @@ const obtener_usuario_admin = async function (req, res) {
 }*/
 
 
+
 module.exports = {
   registroAdmin, loginAdmin, listaAdmin,
   listarUsuariosAdmin, eliminar_usuario_admin,
-  actualizar_usuario_admin, obtener_usuario_admin
+  actualizar_usuario_admin, obtener_usuario_admin, obtener_admin,
+  actualizar_admin
 };
