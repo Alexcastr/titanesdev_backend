@@ -8,7 +8,7 @@ router.get(
   '/redirect',
   passport.authenticate('discord', {
     failureRedirect: '/forbidden',
-    successRedirect: 'http://localhost:4200/panel-user/list-sorteos'
+    successRedirect: 'http://localhost:4200/redirect/'
   }),
   async (req, res) => {
     const user = req.user;
