@@ -91,7 +91,7 @@ const listarUsuariosAdmin = async function (req, res) {
     const usuarios = await Usuario.find({});
 
     // Enviar los datos como respuesta
-    res.status(200).send({ data: usuarios });
+    res.status(200).send( usuarios );
   } catch (error) {
     // Manejar errores
     console.error('Error al obtener lista de usuarios:', error);

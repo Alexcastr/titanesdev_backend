@@ -26,11 +26,9 @@ const authAcount = async (req, res) => {
           username,
           avatar
         });
-
-        res.redirect('http://localhost:4200/redirect/'+access_token);
-      } else {
-        res.redirect('http://localhost:4200/sorteo');
       }
+      
+      res.redirect('http://localhost:4200/redirect/'+access_token);
     }
   } catch (error) {
     console.error('Error al intercambiar el código de autorización:', error);
