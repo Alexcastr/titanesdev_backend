@@ -7,10 +7,7 @@ const jwt = require('../middlewares/jwt');
 const Usuario = require('../models/usuario');
 
 const registroAdmin = async function (req, res) {
-  if (!req.user || req.user.rol !== 'admin') {
-    return res.status(403).send({ message: 'Acceso denegado' });
-  }
-
+ 
   const data = req.body;
 
   //Validar correos existentes
