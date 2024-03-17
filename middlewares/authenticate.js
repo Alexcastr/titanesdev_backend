@@ -9,7 +9,7 @@ const secret = process.env.JWT_SECRET;
 exports.auth = function (req, res, next) {
   if (!req.headers.authorization) {
     return res.status(403).send({
-      message: 'NoHeadersError'
+      message: 'here is no authorization header'
     });
   }
 
