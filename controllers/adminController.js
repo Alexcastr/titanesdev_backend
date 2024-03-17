@@ -91,7 +91,7 @@ const listarUsuariosAdmin = async function (req, res) {
     const usuarios = await Usuario.find({});
 
     // Enviar los datos como respuesta
-    res.status(200).send( usuarios );
+    res.status(200).send(usuarios);
   } catch (error) {
     // Manejar errores
     console.error('Error al obtener lista de usuarios:', error);
@@ -172,8 +172,10 @@ const obtener_usuario_admin = async function (req, res) {
 }*/
 
 
+
 module.exports = {
   registroAdmin, loginAdmin, listaAdmin,
   listarUsuariosAdmin, eliminar_usuario_admin,
-  actualizar_usuario_admin, obtener_usuario_admin
+  actualizar_usuario_admin, obtener_usuario_admin,
+
 };
