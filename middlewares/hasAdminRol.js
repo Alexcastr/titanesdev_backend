@@ -8,7 +8,7 @@ function hasAdminRol(req, res, next) {
 
   // console.log('authorization', authHeader);
   if (!authHeader) {
-    return res.status(403).send({ message: 'NoHeadersError' });
+    return res.status(403).send({ message: 'here no heders error ' });
   }
 
   if (authHeader.startsWith('Bearer ')) {
