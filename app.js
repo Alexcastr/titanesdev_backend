@@ -69,6 +69,7 @@ app.use('/api', config_route);
 app.use('/api', sorteo_route);
 app.use('/api', discord_api);
 app.use('/api', authRoute);
+app.use('/api', premio_route);
 // app.use('/api', hasAdminRol, premio_route);
 
 server.listen(PORT, () => {

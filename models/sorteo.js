@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const SorteoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  imagenes: [{ type: Object, required: false }],
   startDate: { type: String, required: true },
   endDate: { type: String, required: true },
   participants: [
