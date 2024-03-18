@@ -12,22 +12,25 @@ const getAllPremios = async (req, res) => {
 };
 
 const createPremio = async (req, res) => {
+  console.log(req.body);
+  console.log(req.uer);
+  console.log(req.files);
   if (req.user) {
     if (req.user.rol == 'admin') {
       let id = req.params['id']
-      let { _id, name, file } = req.body;
-      if (file) {
-        console.log(file);
+      let data = req.body;
+      if (req.files) {
         //SI HAY IMG
-        var namePath = file.split('\\');
-        var imagen_name = namePath[2];
+        var img_path = req.files.imagen.path;
+        var name = img_path.split('\\');
+        var imagen_name = name[2];
         //data.portada = portada_name;
         
         const premio = await Premio.create({
-          name, imagenes: [{_id, imagen_name}],
+          name: data.name, imagenes: [{_id: data._id, imagen_name}],
           sorteo: id
         });
-        console.log(premio);
+
 	      let sorteo = await Sorteo.findByIdAndUpdate({ _id: id }, {
           $push: {
             premios: {
