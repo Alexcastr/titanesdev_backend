@@ -15,4 +15,5 @@ api.get("/obtener_sorteo_admin/:id", auth.auth, sorteoController.obtener_sorteo_
 api.put("/eliminar_imagen_galeria_admin/:id", auth.auth, sorteoController.eliminar_imagen_galeria_admin);
 api.put('/actualizar_sorteo_admin/:id', auth.auth, sorteoController.actualizar_sorteo_admin);
 api.delete('/eliminar_sorteo_admin/:id', auth.auth, sorteoController.eliminar_sorteo_admin);
+api.get("/obtener_portada/:img", sorteoController.obtener_portada);
 module.exports = api;

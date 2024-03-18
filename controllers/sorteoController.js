@@ -101,7 +101,7 @@ const agregar_imgPortada_admin = async function (req, res) {
         //data.portada = portada_name;
         let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
           $push: {
-            galeria: {
+            imagenes: {
               imagen_name,
               _id: data._id
             }
@@ -115,6 +115,20 @@ const agregar_imgPortada_admin = async function (req, res) {
   } else {
     res.status(500).send({ message: "NoAccess" });
   }
+}
+
+const obtener_portada = async function (req, res) {
+  var img = req.params['img'];
+  console.log(img)
+  fs.stat('./uploads/sorteos/' + img, function (err) {
+      if (!err) {
+          let path_img = './uploads/sorteos/' + img;
+          res.status(200).sendFile(path.resolve(path_img))
+      } else {
+          let path_img = './uploads/default.jpg';
+          res.status(200).sendFile(path.resolve(path_img))
+      }
+  })
 }
 
 const obtener_sorteo_admin = async function (req, res) {
@@ -208,5 +222,7 @@ module.exports = {
   getAllSorteos, createSorteo,
   registerSorteo, agregar_imgPortada_admin,
   obtener_sorteo_admin, eliminar_imagen_galeria_admin,
-  actualizar_sorteo_admin, eliminar_sorteo_admin
+  actualizar_sorteo_admin, eliminar_sorteo_admin,
+  obtener_portada
+  
 };
