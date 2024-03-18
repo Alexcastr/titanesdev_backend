@@ -4,7 +4,6 @@ const {
 } = require('./api-discord/guildsController');
 const Sorteo = require('../models/sorteo');
 const User = require('../models/usuario');
-const Premio = require('../models/premio');
 const getDiscordUser = require('../utils/getDiscordUser');
 var fs = require('fs');
 var path = require('path');
@@ -248,6 +247,22 @@ const getAllPremiosBySorteoId = async (req, res) => {
   }
 };
 
+const getAllParticipantsBySorteoId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const sorteo = await Sorteo.findById(id).populate({
+      path: 'participants'
+    });
+
+    console.log('participantes del sorteo by id', sorteo);
+    res.status(200).send(sorteo.participants);
+  } catch (error) {
+    console.log('error', error);
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   getAllSorteos,
   createSorteo,
@@ -258,5 +273,6 @@ module.exports = {
   actualizar_sorteo_admin,
   eliminar_sorteo_admin,
   obtener_portada,
-  getAllPremiosBySorteoId
+  getAllPremiosBySorteoId,
+  getAllParticipantsBySorteoId
 };

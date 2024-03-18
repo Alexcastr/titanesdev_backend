@@ -40,4 +40,10 @@ api.get('/obtener_portada/:img', sorteoController.obtener_portada);
 // get all premios that has sorteo id
 api.get('/sorteos/premios/:id', sorteoController.getAllPremiosBySorteoId);
 
+// get all participantes that has sorteo id
+api.get(
+  '/sorteos/participantes/:id',
+  sorteoController.getAllParticipantsBySorteoId
+);
+
 module.exports = api;
