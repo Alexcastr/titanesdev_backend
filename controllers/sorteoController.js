@@ -185,7 +185,7 @@ const actualizar_sorteo_admin = async function (req, res) {
           description: data.description,
           startDate: data.startDate,
           endDate: data.endDate,
-          prize: data.endDate
+          prize: data.prize
         });
         res.status(200).send({ data: reg });
       } catch (error) {
