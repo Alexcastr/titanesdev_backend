@@ -157,7 +157,7 @@ const eliminar_imagen_galeria_admin = async function (req, res) {
       try {
         let reg = await Sorteo.findByIdAndUpdate({ _id: id }, {
           $pull: {
-            galeria: {
+            imagenes: {
               _id: data._id
             }
           }
