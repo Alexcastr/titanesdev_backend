@@ -10,12 +10,15 @@ const SorteoSchema = new mongoose.Schema({
   participants: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: false }
   ], // Referencia a la colección de usuarios
-  premios: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Premio', required: false }], // Referencia a la colección de premios
+  premios: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'premio', required: false }
+  ], // Referencia a la colección de premios
   winners: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Usuario',
-      default: null, required: false
+      default: null,
+      required: false
     }
   ], // Referencia a los ganadores (usuarios)
   prize: { type: String, required: true },
