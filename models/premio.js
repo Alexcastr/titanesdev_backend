@@ -9,14 +9,15 @@ const PremioSchema = new Schema({
     required: [true, 'Debe tener un nombre'],
     minLength: 3
   },
+  imagenes: [{ type: Object, required: false }],
   description: String,
   startDate: {
     type: Date,
-    required: [true, 'Define fecha disponibilidad del premio']
+    required: [false, 'Define fecha disponibilidad del premio']
   },
   endDate: {
     type: Date,
-    required: [true, 'Define fecha de expiración del premio']
+    required: [false, 'Define fecha de expiración del premio']
   },
   sorteo: { type: mongoose.Schema.Types.ObjectId, ref: 'Sorteo' },
   winner: {

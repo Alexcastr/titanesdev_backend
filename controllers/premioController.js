@@ -1,4 +1,5 @@
 const Premio = require('../models/premio');
+const Sorteo = require('../models/sorteo');
 const isValidObjectId = require('../utils/isValidObjectId.js');
 const getAllPremios = async (req, res) => {
   try {
@@ -11,13 +12,37 @@ const getAllPremios = async (req, res) => {
 };
 
 const createPremio = async (req, res) => {
-  try {
-    const premio = await Premio.create(req.body);
-    console.log('create premio', premio);
-    res.status(201).send(premio);
-  } catch (error) {
-    console.log('error', error);
-    res.status(500).send(error);
+  if (req.user) {
+    if (req.user.rol == 'admin') {
+      let id = req.params['id']
+      let { _id, name, file } = req.body;
+      if (file) {
+        console.log(file);
+        //SI HAY IMG
+        var namePath = file.split('\\');
+        var imagen_name = namePath[2];
+        //data.portada = portada_name;
+        
+        const premio = await Premio.create({
+          name, imagenes: [{_id, imagen_name}],
+          sorteo: id
+        });
+        console.log(premio);
+	      let sorteo = await Sorteo.findByIdAndUpdate({ _id: id }, {
+          $push: {
+            premios: {
+              _id: premio._id
+            }
+          }
+        });
+
+        res.status(200).send({ data: sorteo });
+      }
+    } else {
+      res.status(500).send({ message: "NoAccess" });
+    }
+  } else {
+    res.status(500).send({ message: "NoAccess" });
   }
 };
 
@@ -80,10 +105,11 @@ const deletePremio = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getAllPremios,
   createPremio,
   getPremio,
   updatePremio,
-  deletePremio
+  deletePremio,
 };
